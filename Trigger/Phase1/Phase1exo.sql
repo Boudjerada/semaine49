@@ -96,7 +96,7 @@ BEGIN
     DECLARE tot Decimal ;
     SET id_com = NEW.id_commande ;
     SET tot = (SELECT sum(prix*quantite) FROM lignedecommande WHERE id_commande=id_com);
-    UPDATE `commande` SET total = tot - remise WHERE id=id_com ;
+    UPDATE `commande` SET total = ((tot * remise) / 100) WHERE id=id_com ;
 END ||
 
 delimiter ;
@@ -105,7 +105,7 @@ delimiter ;
 
 INSERT INTO `lignedecommande` (`id_commande`, `id_produit`, `quantite`, `prix`) VALUES
 (2, 4, 3, '10.00');
-/*Avant la commande 2 est a 90 en total, elle passe a 110 a savoir 90 + 30 - 10 de remise*/
+/*Avant la commande 2 est a 90 en total, elle passe a 108 a savoir (90 + 30) - 10% de remise*/
 
 
 
